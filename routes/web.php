@@ -24,4 +24,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('attendance', AttendanceController::class);
 });
 
+Route::get('/setup-db', function () {
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AttendanceSeeder', '--force' => true]);
+    return 'ยินดีด้วย! สร้างตารางและฐานข้อมูลสำเร็จแล้ว 🎉';
+});
+
 require __DIR__.'/auth.php';
